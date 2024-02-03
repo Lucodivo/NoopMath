@@ -102,7 +102,7 @@ TEST(NoopMath, mat4MultTest) {
 }
 
 TEST(NoopMath, mat4RotateTest) {
-  f32 angle = 120.f * RadiansPerDegree;
+  float angle = 120.f * RadiansPerDegree;
   vec3 rotationAxis{1.0f, 1.0f, 1.0f};
   vec4 x{1.0f, 0.0f, 0.0f, 1.0f};
   vec4 y{0.0f, 1.0f, 0.0f, 1.0f};
@@ -164,7 +164,7 @@ TEST(NoopMath, complexVec2RotationTest) {
 }
 
 TEST(NoopMath, quaternionVec3RotationTest) {
-  f32 angle = 120.f * RadiansPerDegree;
+  float angle = 120.f * RadiansPerDegree;
   vec3 rotationAxis{1.0f, 1.0f, 1.0f};
   vec3 x{1.0f, 0.0f, 0.0f};
   vec3 y{0.0f, 1.0f, 0.0f};
@@ -259,12 +259,12 @@ TEST(NoopMath, slerpTest) {
 
 TEST(NoopMath, orthographicTest) {
   vec4 point{15.0f, 70.0f, 300.0f, 1.0f};
-  f32 l = -20.0f;
-  f32 r = 40.0f;
-  f32 b = 50.0f;
-  f32 t = 110.0f;
-  f32 n = 230.0f;
-  f32 f = 500.0f;
+  float l = -20.0f;
+  float r = 40.0f;
+  float b = 50.0f;
+  float t = 110.0f;
+  float n = 230.0f;
+  float f = 500.0f;
   vec4 expectedCanonicalViewPoint{
           (point[0] - ((r + l) / 2.0f)) // move origin to center
           * (2.0f / (r - l)), // dimens desired dimens between -1 and 1
@@ -282,8 +282,8 @@ TEST(NoopMath, orthographicTest) {
 }
 
 TEST(NoopMath, bracketAssignmentOperatorsSanityCheck) {
-  f32 zanyWhackyNum = 123.456f;
-  u32 indexOfInterest = 1;
+  float zanyWhackyNum = 123.456f;
+  uint32_t indexOfInterest = 1;
   vec2 v2{};
   vec3 v3{};
   vec4 v4{};
@@ -323,14 +323,14 @@ TEST(NoopMath, quaternionOrientTest) {
 }
 
 TEST(NoopMath, inversePerspectiveTests) {
-  f32 l = 10.0f;
-  f32 r = 30.0f;
-  f32 b = -50.0f;
-  f32 t = 50.0f;
-  f32 n = 1.0f;
-  f32 f = 70.0f;
-  f32 fovy = fieldOfView(13.5f, 25.0f);
-  f32 aspect = 1920.0f / 1080.0f;
+  float l = 10.0f;
+  float r = 30.0f;
+  float b = -50.0f;
+  float t = 50.0f;
+  float n = 1.0f;
+  float f = 70.0f;
+  float fovy = fieldOfView(13.5f, 25.0f);
+  float aspect = 1920.0f / 1080.0f;
   mat4 perspLRBT = perspective(l, r, b, t, n, f);
   mat4 perspFOV = perspective(fovy, aspect, n, f);
   mat4 inverseLRBT = perspectiveInverse(l, r, b, t, n, f);

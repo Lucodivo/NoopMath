@@ -1,8 +1,7 @@
 #pragma once
 
 #include <math.h>
-
-#include "noop_types.h"
+#include <stdint.h>
 
 // Note: If degrees/radians is not specified for angle, angle is assumed to be in radians
 
@@ -19,41 +18,41 @@
 
 namespace noop {
   struct vec2 {
-    f32 values[2];
-    inline f32 operator[](u32 i) const { return values[i]; }
-    inline f32& operator[](u32 i) { return values[i]; }
+    float values[2];
+    inline float operator[](uint32_t i) const { return values[i]; }
+    inline float& operator[](uint32_t i) { return values[i]; }
   };
 
   struct vec3 {
     union {
-      f32 values[3];
+      float values[3];
       vec2 xy;
     };
-    inline f32 operator[](u32 i) const { return values[i]; }
-    inline f32& operator[](u32 i) { return values[i]; }
+    inline float operator[](uint32_t i) const { return values[i]; }
+    inline float& operator[](uint32_t i) { return values[i]; }
   };
 
   struct vec4 {
     union {
-      f32 values[4];
+      float values[4];
       vec3 xyz;
     };
-    inline f32 operator[](u32 i) const { return values[i]; }
-    inline f32& operator[](u32 i) { return values[i]; }
+    inline float operator[](uint32_t i) const { return values[i]; }
+    inline float& operator[](uint32_t i) { return values[i]; }
   };
 
 // NOTE: column-major
   struct mat2 {
-    f32 values[4];
-    inline f32 operator[](u32 i) const { return values[i]; }
-    inline f32& operator[](u32 i) { return values[i]; }
+    float values[4];
+    inline float operator[](uint32_t i) const { return values[i]; }
+    inline float& operator[](uint32_t i) { return values[i]; }
   };
 
 // NOTE: column-major
   struct mat3 {
-    f32 values[9];
-    inline f32 operator[](u32 i) const { return values[i]; }
-    inline f32& operator[](u32 i) { return values[i]; }
+    float values[9];
+    inline float operator[](uint32_t i) const { return values[i]; }
+    inline float& operator[](uint32_t i) { return values[i]; }
     inline mat2 toMat2(){ return mat2{
       values[0], values[1],
       values[3], values[4]
@@ -62,9 +61,9 @@ namespace noop {
 
 // NOTE: column-major
   struct mat4 {
-    f32 values[16];
-    inline f32 operator[](u32 i) const { return values[i]; }
-    inline f32& operator[](u32 i) { return values[i]; }
+    float values[16];
+    inline float operator[](uint32_t i) const { return values[i]; }
+    inline float& operator[](uint32_t i) { return values[i]; }
     inline mat3 toMat3(){ return mat3{
           values[0], values[1], values[2],
           values[4], values[5], values[6],
@@ -82,18 +81,18 @@ namespace noop {
   };
 
   struct quaternion {
-    f32 r;
+    float r;
     union {
       struct {
-        f32 i; f32 j; f32 k;
+        float i; float j; float k;
       };
       vec3 ijk;
     };
   };
 
   struct complex {
-    f32 r;
-    f32 i;
+    float r;
+    float i;
   };
 
   struct BoundingRect {
@@ -107,44 +106,44 @@ namespace noop {
   };
 
 // floating point
-  b32 epsilonComparison(f32 a, f32 b, f32 epsilon = COMPARISON_EPSILON);
+  bool epsilonComparison(float a, float b, float epsilon = COMPARISON_EPSILON);
 
-  b32 epsilonComparison(f64 a, f64 b, f64 epsilon = COMPARISON_EPSILON);
+  bool epsilonComparison(double a, double b, double epsilon = COMPARISON_EPSILON);
 
-  f32 step(f32 edge, f32 x);
+  float step(float edge, float x);
 
-  f32 clamp(f32 minVal, f32 maxVal, f32 x);
+  float clamp(float minVal, float maxVal, float x);
 
-  f32 smoothStep(f32 edge1, f32 edge2, f32 x);
+  float smoothStep(float edge1, float edge2, float x);
 
-  f32 lerp(f32 a, f32 b, f32 t);
+  float lerp(float a, float b, float t);
 
-  f32 sign(f32 x);
+  float sign(float x);
 
-  f32 radians(f32 degrees);
+  float radians(float degrees);
 
 // real-time rendering 4.7.2
 // ex: screenWidth = 20.0f, screenDist = 30.0f will provide the horizontal field of view
 // for a person sitting 30 units away from a 20 unit screen, assuming the screen is
 // perpendicular to the line of sight.
 // NOTE: Any units work as long as they are the same. Works for vertical and horizontal.
-  f32 fieldOfView(f32 screenWidth, f32 screenDist);
+  float fieldOfView(float screenWidth, float screenDist);
 
 // == vec2 ==
-  b32 operator==(const vec2 &v1, const vec2 &v2);
+  bool operator==(const vec2 &v1, const vec2 &v2);
 
-  f32 dot(vec2 xy1, vec2 xy2);
+  float dot(vec2 xy1, vec2 xy2);
 
-  f32 magnitudeSquared(vec2 xy);
+  float magnitudeSquared(vec2 xy);
 
-  f32 magnitude(vec2 xy);
+  float magnitude(vec2 xy);
 
   vec2 normalize(const vec2 &xy);
 
-  vec2 normalize(f32 x, f32 y);
+  vec2 normalize(float x, float y);
 
 // v2 exists in the same half circle that centers around v1. Acute (<90º) angle between the two vectors.
-  b32 similarDirection(vec2 v1, vec2 v2);
+  bool similarDirection(vec2 v1, vec2 v2);
 
   vec2 operator-(const vec2 &xy);
 
@@ -156,26 +155,26 @@ namespace noop {
 
   void operator+=(vec2 &xy1, const vec2 &xy2);
 
-  vec2 operator*(f32 s, vec2 xy);
+  vec2 operator*(float s, vec2 xy);
 
-  vec2 operator*(vec2 xy, f32 s);
+  vec2 operator*(vec2 xy, float s);
 
-  void operator*=(vec2 &xy, f32 s);
+  void operator*=(vec2 &xy, float s);
 
-  vec2 operator/(const vec2 &xy, const f32 s);
+  vec2 operator/(const vec2 &xy, const float s);
 
   vec2 operator/(const vec2 &xy1, const vec2 &xy2);
 
-  vec2 lerp(const vec2 &a, const vec2 &b, f32 t);
+  vec2 lerp(const vec2 &a, const vec2 &b, float t);
 
   bool lineSegmentsIntersection(vec2 A1, vec2 A2, vec2 B1, vec2 B2, vec2* intersection = nullptr);
 
 // == vec3 ==
-  vec3 Vec3(vec2 xy, f32 z);
+  vec3 Vec3(vec2 xy, float z);
 
-  vec3 Vec3(f32 value);
+  vec3 Vec3(float value);
 
-  b32 operator==(const vec3 &v1, const vec3 &v2);
+  bool operator==(const vec3 &v1, const vec3 &v2);
 
   vec3 operator-(const vec3 &xyz);
 
@@ -187,61 +186,61 @@ namespace noop {
 
   void operator+=(vec3 &xyz1, const vec3 &xyz2);
 
-  vec3 operator*(f32 s, vec3 xyz);
+  vec3 operator*(float s, vec3 xyz);
 
-  vec3 operator*(vec3 xyz, f32 s);
+  vec3 operator*(vec3 xyz, float s);
 
-  void operator*=(vec3 &xyz, f32 s);
+  void operator*=(vec3 &xyz, float s);
 
-  vec3 operator/(const vec3 &xyz, const f32 s);
+  vec3 operator/(const vec3 &xyz, const float s);
 
   vec3 operator/(const vec3 &xyz1, const vec3 &xyz2);
 
-  f32 dot(vec3 xyz1, vec3 xyz2);
+  float dot(vec3 xyz1, vec3 xyz2);
 
   vec3 hadamard(const vec3 &xyz1, const vec3 &xyz2);
 
   vec3 cross(const vec3 &xyz1, const vec3 &xyz2);
 
-  f32 magnitudeSquared(vec3 xyz);
+  float magnitudeSquared(vec3 xyz);
 
-  f32 magnitude(vec3 xyz);
+  float magnitude(vec3 xyz);
 
   vec3 normalize(const vec3 &xyz);
 
-  vec3 normalize(f32 x, f32 y, f32 z);
+  vec3 normalize(float x, float y, float z);
 
-  b32 degenerate(const vec3 &v);
+  bool degenerate(const vec3 &v);
 
   vec3 projection(const vec3 &v1, const vec3 &ontoV2 /* assumed to be normalized */);
 
   vec3 perpendicularTo(const vec3 &v1, const vec3 &ontoV2 /* assumed to be normalized */);
 
 // v2 exists in the same hemisphere that centers around v1. Acute (<90º) angle between the two vectors.
-  b32 similarDirection(const vec3 &v1, const vec3 &v2);
+  bool similarDirection(const vec3 &v1, const vec3 &v2);
 
-  vec3 lerp(const vec3 &a, const vec3 &b, f32 t);
+  vec3 lerp(const vec3 &a, const vec3 &b, float t);
 
 // vec4
-  b32 operator==(const vec4 &v1, const vec4 &v2);
+  bool operator==(const vec4 &v1, const vec4 &v2);
 
-  vec4 Vec4(vec2 xy, f32 z,  f32 w);
+  vec4 Vec4(vec2 xy, float z,  float w);
 
-  vec4 Vec4(vec3 xyz, f32 w);
+  vec4 Vec4(vec3 xyz, float w);
 
-  vec4 Vec4(f32 x, vec3 yzw);
+  vec4 Vec4(float x, vec3 yzw);
 
   vec4 Vec4(vec2 xy, vec2 zw);
 
-  f32 dot(vec4 xyzw1, vec4 xyzw2);
+  float dot(vec4 xyzw1, vec4 xyzw2);
 
-  f32 magnitudeSquared(vec4 xyzw);
+  float magnitudeSquared(vec4 xyzw);
 
-  f32 magnitude(vec4 xyzw);
+  float magnitude(vec4 xyzw);
 
   vec4 normalize(const vec4 &xyzw);
 
-  vec4 normalize(f32 x, f32 y, f32 z, f32 w);
+  vec4 normalize(float x, float y, float z, float w);
 
   vec4 operator-(const vec4 &xyzw);
 
@@ -253,17 +252,17 @@ namespace noop {
 
   void operator+=(vec4 &xyzw1, const vec4 &xyzw2);
 
-  vec4 operator*(f32 s, vec4 xyzw);
+  vec4 operator*(float s, vec4 xyzw);
 
-  vec4 operator*(vec4 xyzw, f32 s);
+  vec4 operator*(vec4 xyzw, float s);
 
-  void operator*=(vec4 &xyzw, f32 s);
+  void operator*=(vec4 &xyzw, float s);
 
-  vec4 operator/(const vec4 &xyzw, const f32 s);
+  vec4 operator/(const vec4 &xyzw, const float s);
 
   vec4 operator/(const vec4 &xyzw1, const vec4 &xyzw2);
 
-  vec4 lerp(const vec4 &a, const vec4 &b, f32 t);
+  vec4 lerp(const vec4 &a, const vec4 &b, float t);
 
   vec4 min(const vec4 &xyzw1, const vec4 &xyzw2);
 
@@ -271,33 +270,33 @@ namespace noop {
 
 // Complex
 // This angle represents a counter-clockwise rotation
-  complex Complex(f32 angle);
+  complex Complex(float angle);
 
-  b32 operator==(const complex &c1, const complex &c2);
+  bool operator==(const complex &c1, const complex &c2);
 
-  f32 magnitudeSquared(complex c);
+  float magnitudeSquared(complex c);
 
-  f32 magnitude(complex c);
+  float magnitude(complex c);
 
   vec2 operator*(const complex &ri, vec2 xy /* treated as complex number*/);
 
   void operator*=(vec2 &xy /* treated as complex number*/, const complex &ri);
 
 // Quaternions
-  b32 operator==(const quaternion &q1, const quaternion &q2);
+  bool operator==(const quaternion &q1, const quaternion &q2);
 
-  quaternion Quaternion(vec3 v, f32 angle);
+  quaternion Quaternion(vec3 v, float angle);
 
   quaternion identity_quaternion();
 
-  f32 magnitudeSquared(quaternion rijk);
+  float magnitudeSquared(quaternion rijk);
 
-  f32 magnitude(quaternion q);
+  float magnitude(quaternion q);
 
 // NOTE: Conjugate is equal to the inverse when the quaternion is unit length
   quaternion conjugate(quaternion q);
 
-  f32 dot(const quaternion &q1, const quaternion &q2);
+  float dot(const quaternion &q1, const quaternion &q2);
 
   quaternion normalize(const quaternion &q);
 
@@ -309,45 +308,45 @@ namespace noop {
 
   quaternion operator-(const quaternion &q1, const quaternion &q2);
 
-  quaternion operator*(const quaternion &q1, f32 s);
+  quaternion operator*(const quaternion &q1, float s);
 
-  quaternion operator*(f32 s, const quaternion &q1);
+  quaternion operator*(float s, const quaternion &q1);
 
-  quaternion operator/(const quaternion &q1, f32 s);
+  quaternion operator/(const quaternion &q1, float s);
 
-  quaternion lerp(quaternion a, quaternion b, f32 t);
+  quaternion lerp(quaternion a, quaternion b, float t);
 
-  quaternion slerp(quaternion a, quaternion b, f32 t);
+  quaternion slerp(quaternion a, quaternion b, float t);
 
   quaternion orient(const vec3 &startOrientation, const vec3 &endOrientation);
 
 // mat2
-  b32 operator==(const mat2 &A, const mat2 &B);
+  bool operator==(const mat2 &A, const mat2 &B);
 
   mat2 identity_mat2();
 
-  mat2 scale_mat2(f32 scale);
+  mat2 scale_mat2(float scale);
 
   mat2 scale_mat2(vec3 scale);
 
   mat2 transpose(const mat2 &A);
 
-  mat2 rotate(f32 radians);
+  mat2 rotate(float radians);
 
-  f32 determinant(mat2 m);
+  float determinant(mat2 m);
 
 // mat3
-  b32 operator==(const mat3 &A, const mat3 &B);
+  bool operator==(const mat3 &A, const mat3 &B);
 
   mat3 identity_mat3();
 
-  mat3 scale_mat3(f32 scale);
+  mat3 scale_mat3(float scale);
 
   mat3 scale_mat3(vec3 scale);
 
   mat3 transpose(const mat3 &A);
 
-  mat3 rotate_mat3(f32 radians, vec3 v);
+  mat3 rotate_mat3(float radians, vec3 v);
 
   mat3 rotate_mat3(quaternion q);
 
@@ -362,11 +361,11 @@ namespace noop {
 // mat4
   mat4 Mat4(mat3 M);
 
-  b32 operator==(const mat4 &A, const mat4 &B);
+  bool operator==(const mat4 &A, const mat4 &B);
 
   mat4 identity_mat4();
 
-  mat4 scale_mat4(f32 scale);
+  mat4 scale_mat4(float scale);
 
   mat4 scale_mat4(vec3 scale);
 
@@ -374,15 +373,15 @@ namespace noop {
 
   mat4 transpose(const mat4 &A);
 
-  mat4 rotate_xyPlane_mat4(f32 radians);
+  mat4 rotate_xyPlane_mat4(float radians);
 
-  mat4 rotate_mat4(f32 radians, vec3 v);
+  mat4 rotate_mat4(float radians, vec3 v);
 
-  mat4 scaleTrans_mat4(const f32 scale, const vec3 &translation);
+  mat4 scaleTrans_mat4(const float scale, const vec3 &translation);
 
   mat4 scaleTrans_mat4(const vec3 &scale, const vec3 &translation);
 
-  mat4 scaleRotTrans_mat4(const vec3 &scale, const vec3 &rotAxis, const f32 angle,
+  mat4 scaleRotTrans_mat4(const vec3 &scale, const vec3 &rotAxis, const float angle,
                           const vec3 &translation);
 
   mat4 scaleRotTrans_mat4(const vec3 &scale, const quaternion &q, const vec3 &translation);
@@ -395,19 +394,19 @@ namespace noop {
 
 // real-time rendering 4.7.1
 // This projection is for a canonical view volume goes from <-1,1>
-  mat4 orthographic(f32 l, f32 r, f32 b, f32 t, f32 n, f32 f);
+  mat4 orthographic(float l, float r, float b, float t, float n, float f);
 
 // real-time rendering 4.7.2
-  mat4 perspective(f32 l, f32 r, f32 b, f32 t, f32 n, f32 f);
+  mat4 perspective(float l, float r, float b, float t, float n, float f);
 
-  mat4 perspectiveInverse(f32 l, f32 r, f32 b, f32 t, f32 n, f32 f);
+  mat4 perspectiveInverse(float l, float r, float b, float t, float n, float f);
 
 // real-time rendering 4.7.2
 // aspect ratio is equivalent to width / height
-  mat4 perspective(f32 fovVert, f32 aspect, f32 n, f32 f);
-  mat4 perspective_fovHorz(f32 fovHorz, f32 aspect, f32 n, f32 f);
+  mat4 perspective(float fovVert, float aspect, float n, float f);
+  mat4 perspective_fovHorz(float fovHorz, float aspect, float n, float f);
 
-  mat4 perspectiveInverse(f32 fovVert, f32 aspect, f32 n, f32 f);
+  mat4 perspectiveInverse(float fovVert, float aspect, float n, float f);
 
 /*
  * // NOTE: Oblique View Frustum Depth Projection and Clipping by Eric Lengyel (Terathon Software)
@@ -417,8 +416,8 @@ namespace noop {
  * vec3 planePos_viewSpace: Any position on the plane in view space.
  */
   mat4 obliquePerspective(const mat4 &perspectiveMat, vec3 planeNormal_viewSpace,
-                          vec3 planePos_viewSpace, f32 farPlane);
-  mat4 obliquePerspective_fovHorz(f32 fovHorz, f32 aspect, f32 nearPlane, f32 farPlane, vec3 planeNormal_viewSpace, vec3 planePos_viewSpace);
+                          vec3 planePos_viewSpace, float farPlane);
+  mat4 obliquePerspective_fovHorz(float fovHorz, float aspect, float nearPlane, float farPlane, vec3 planeNormal_viewSpace, vec3 planePos_viewSpace);
 
 /*
  * // NOTE: Oblique View Frustum Depth Projection and Clipping by Eric Lengyel (Terathon Software)
@@ -426,12 +425,12 @@ namespace noop {
  * vec3 planeNormal_viewSpace: Plane normal in view space. MUST be normalized. This is a normal that points INTO the frustum, NOT one that is generally pointing towards the camera.
  * vec3 planePos_viewSpace: Any position on the plane in view space.
  */
-  mat4 obliquePerspective(f32 fovVert, f32 aspect, f32 nearPlane, f32 farPlane,
+  mat4 obliquePerspective(float fovVert, float aspect, float nearPlane, float farPlane,
                           vec3 planeNormal_viewSpace, vec3 planePos_viewSpace);
 
-  void adjustAspectPerspProj(mat4 *projectionMatrix, f32 fovVert, f32 aspect);
+  void adjustAspectPerspProj(mat4 *projectionMatrix, float fovVert, float aspect);
 
-  void adjustNearFarPerspProj(mat4 *projectionMatrix, f32 n, f32 f);
+  void adjustNearFarPerspProj(mat4 *projectionMatrix, float n, float f);
 
 // etc
   bool insideRect(BoundingRect boundingRect, vec2 position);

@@ -1,16 +1,31 @@
 #include "noop_math.h"
 
+#include <cassert>
+
+typedef int8_t s8;
+typedef int16_t s16;
+typedef int32_t s32;
+typedef int64_t s64;
+
+typedef uint8_t u8;
+typedef uint16_t u16;
+typedef uint32_t u32;
+typedef uint64_t u64;
+
+typedef float f32;
+typedef double f64;
+
 // TODO: No optimizations have been made in this file. Ideas: intrinsics, sse, better usage of temporary memory.
 
 namespace noop {
 
 // floating point
-  b32 epsilonComparison(f32 a, f32 b, f32 epsilon) {
+  bool epsilonComparison(f32 a, f32 b, f32 epsilon) {
     f32 diff = a - b;
     return (diff <= epsilon && diff >= -epsilon);
   }
 
-  b32 epsilonComparison(f64 a, f64 b, f64 epsilon) {
+  bool epsilonComparison(f64 a, f64 b, f64 epsilon) {
     f64 diff = a - b;
     return (diff <= epsilon && diff >= -epsilon);
   }
@@ -44,7 +59,7 @@ namespace noop {
   }
 
 // vec2
-  b32 operator==(const vec2& v1, const vec2& v2) {
+  bool operator==(const vec2& v1, const vec2& v2) {
     return epsilonComparison(v1[0], v2[0]) &&
            epsilonComparison(v1[1], v2[1]);
   }
@@ -77,7 +92,7 @@ namespace noop {
 
 // less than a 90 degree angle between the two vectors
 // v2 exists in the same half circle that centers around v1
-  b32 similarDirection(vec2 v1, vec2 v2) {
+  bool similarDirection(vec2 v1, vec2 v2) {
     return dot(v1, v2) > 0.0f;
   }
 
@@ -169,7 +184,7 @@ namespace noop {
     return vec3{value, value, value};
   }
 
-  b32 operator==(const vec3& v1, const vec3& v2) {
+  bool operator==(const vec3& v1, const vec3& v2) {
     return epsilonComparison(v1[0], v2[0]) &&
            epsilonComparison(v1[1], v2[1]) &&
            epsilonComparison(v1[2], v2[2]);
@@ -260,7 +275,7 @@ namespace noop {
     return vec3{x * magInv, y * magInv, z * magInv};
   }
 
-  b32 degenerate(const vec3& v) {
+  bool degenerate(const vec3& v) {
     return v == vec3{0.0f, 0.0f, 0.0f};
   }
 
@@ -278,7 +293,7 @@ namespace noop {
 
 // less than a 90 degree angle between the two vectors
 // v2 exists in the same hemisphere that centers around v1
-  b32 similarDirection(const vec3& v1, const vec3& v2) {
+  bool similarDirection(const vec3& v1, const vec3& v2) {
     return dot(v1, v2) > 0.0f;
   }
 
@@ -296,7 +311,7 @@ namespace noop {
     return vec4{xyz[0], xyz[1], xyz[2], w};
   }
 
-  b32 operator==(const vec4& v1, const vec4& v2) {
+  bool operator==(const vec4& v1, const vec4& v2) {
     return epsilonComparison(v1[0], v2[0]) &&
            epsilonComparison(v1[1], v2[1]) &&
            epsilonComparison(v1[2], v2[2]) &&
@@ -400,7 +415,7 @@ namespace noop {
     return {cosf(angle), sinf(angle)};
   }
 
-  b32 operator==(const complex& c1, const complex& c2) {
+  bool operator==(const complex& c1, const complex& c2) {
     return epsilonComparison(c1.r, c2.r) &&
            epsilonComparison(c1.i, c2.i);
   }
@@ -454,7 +469,7 @@ namespace noop {
     return result;
   }
 
-  b32 operator==(const quaternion& q1, const quaternion& q2) {
+  bool operator==(const quaternion& q1, const quaternion& q2) {
     return epsilonComparison(q1.r, q2.r) &&
            epsilonComparison(q1.i, q2.i) &&
            epsilonComparison(q1.j, q2.j) &&
@@ -593,7 +608,7 @@ namespace noop {
   }
 
 // mat2
-  b32 operator==(const mat2& A, const mat2& B) {
+  bool operator==(const mat2& A, const mat2& B) {
     return epsilonComparison(A[0], B[0]) &&
            epsilonComparison(A[1], B[1]) &&
            epsilonComparison(A[2], B[2]) &&
@@ -635,7 +650,7 @@ namespace noop {
   }
 
 // mat3
-  b32 operator==(const mat3& A, const mat3& B) {
+  bool operator==(const mat3& A, const mat3& B) {
     return epsilonComparison(A[0], B[0]) &&
            epsilonComparison(A[1], B[1]) &&
            epsilonComparison(A[2], B[2]) &&
@@ -765,7 +780,7 @@ namespace noop {
     };
   }
 
-  b32 operator==(const mat4 &A, const mat4 &B) {
+  bool operator==(const mat4 &A, const mat4 &B) {
     return epsilonComparison(A[0], B[0]  ) &&
            epsilonComparison(A[1], B[1]  ) &&
            epsilonComparison(A[2], B[2]  ) &&

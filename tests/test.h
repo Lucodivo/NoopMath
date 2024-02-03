@@ -2,8 +2,6 @@
 
 #include <gtest/gtest.h>
 
-#include "../noop_types.h"
-
 #include "../noop_math.h"
 using namespace noop;
 
@@ -31,8 +29,8 @@ void printMat4(const char* name, const mat4& M) {
   printVec4(vec4{M[3], M[7], M[11], M[15]});
 }
 
-b32 printIfNotEqual(const vec4& v1, const vec4& v2) {
-  b32 equal = v1 == v2;
+bool printIfNotEqual(const vec4& v1, const vec4& v2) {
+  bool equal = v1 == v2;
   if(!equal) {
     printf("Two vec4s are not equal\n");
     printVec4("actual", v1);
@@ -41,8 +39,8 @@ b32 printIfNotEqual(const vec4& v1, const vec4& v2) {
   return equal;
 }
 
-b32 printIfNotEqual(const mat4& A, const mat4& B) {
-  b32 equal = A == B;
+bool printIfNotEqual(const mat4& A, const mat4& B) {
+  bool equal = A == B;
   if(!equal) {
     printf("Two mat4s are not equal\n");
     printMat4("actual", A);
